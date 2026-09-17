@@ -13,10 +13,14 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'college_transport_db',
   port: process.env.DB_PORT || 3306,
+
+  ssl: process.env.DB_SSL === 'true'
+    ? { rejectUnauthorized: false }
+    : undefined,
+
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
-  ...(useSSL ? { ssl: { rejectUnauthorized: false } } : {})
+  queueLimit: 0
 });
 
 // Quick check on startup so errors are obvious instead of silent
